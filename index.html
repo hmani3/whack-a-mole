@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,64 @@
     <script src="static/js/script.js" defer></script>
     <title>Whack-a-Mole</title>
 </head>
+
 <body>
-    <h1>Whack-a-Mole!</h1>
-    <p>Score: <span id="score">0</span></p>
-    <div class="grid"></div>
-    <button id="start-button" type="button">Start</button>
+    <div id="main-menu">
+        <h1>Whack-a-Mole!</h1>
+        <p>Welcome to Whack-a-Mole! The goal is to hit the bad moles (yellow) and avoid the good moles (green)</p>
+        <div id="gamemodes" class="dropdown">
+            <button>
+                <h3>Gamemodes</h3>
+            </button>
+            <div class="dropdown-content">
+                <button>
+                    <p>Time Attack</p>
+                </button>
+                <button>
+                    <p>Endless</p>
+                </button>
+                <button>
+                    <p>Placeholder!</p>
+                </button>
+            </div>
+
+        </div>
+        <div id="difficulties" class="dropdown">
+            <button>
+                <h3>Difficulties</h3>
+            </button>
+            <div class="dropdown-content">
+                <button>
+                    <p>Easy</p>
+                </button>
+                <button>
+                    <p>Medium</p>
+                </button>
+                <button>
+                    <p>Hard</p>
+                </button>
+            </div>
+
+        </div>
+        <form id="numberForm">
+            <label for="columns">Columns:</label>
+            <input type="number" id="columns" name="columns" placeholder="1-11" min="1" max="11" required>
+
+            <label for="rows">Rows:</label>
+            <input type="number" id="rows" name="rows" placeholder="1-6" min="1" max="6" required>
+        </form>
+        <script>
+
+        </script>
+        <button id="start-button" type="button">Start</button>
+    </div>
+    <div id="main-game">
+        <p id = 'score-display'>Score: <span id="score">0</span></p>
+        <div id="grid-container">
+            <div class="grid"></div>
+        </div>
+    </div>
+
 </body>
+
 </html>
