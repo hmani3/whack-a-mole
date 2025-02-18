@@ -32,27 +32,30 @@
         </div>
         <div id="difficulties" class="dropdown">
             <button>
-                <h3>Difficulties</h3>
+                <h3>Difficulty: <span id="inner-diff">Easy</span></h3>
             </button>
             <div class="dropdown-content">
-                <button>
+                <button id="easy" type="button">
                     <p>Easy</p>
                 </button>
-                <button>
+                <button id="medium" type="button">
                     <p>Medium</p>
                 </button>
-                <button>
+                <button id="hard" type="button">
                     <p>Hard</p>
                 </button>
             </div>
 
         </div>
-        <form id="numberForm">
+        <form>
             <label for="columns">Columns:</label>
             <input type="number" id="columns" name="columns" placeholder="1-11" min="1" max="11" required>
 
             <label for="rows">Rows:</label>
             <input type="number" id="rows" name="rows" placeholder="1-6" min="1" max="6" required>
+
+            <label for="time">Time:</label>
+            <input type="number" id="time" name="time" placeholder="0s" min="1" required>
         </form>
         <script>
 
@@ -60,7 +63,10 @@
         <button id="start-button" type="button">Start</button>
     </div>
     <div id="main-game">
-        <p id = 'score-display'>Score: <span id="score">0</span></p>
+        <div id = 'score-display'>
+            <p>Score: <span id="score">0</span></p>
+            <p>Timer: <span id="timer">0</span>s</p>
+        </div>
         <div id="grid-container">
             <div class="grid"></div>
         </div>

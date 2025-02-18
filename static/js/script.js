@@ -2,6 +2,7 @@ window.addEventListener('load', function () {
     let score;
     let curMole = null;
     let gameInterval;
+    let difficulty = 'easy';
     const grid = document.querySelector('.grid');
     const scoreH = document.getElementById('score');
     const scoreD = document.getElementById('score-display')
@@ -9,34 +10,44 @@ window.addEventListener('load', function () {
     const rowForm = document.getElementById('rows');
     const startButton = document.getElementById('start-button');
     const menu = document.getElementById('main-menu');
+    const dropdowns = document.getElementsByClassName('dropdown');
+    const innerDiff = document.getElementById('inner-diff');
+    const timeForm = document.getElementById('time');
+    const timeD = document.getElementById('timer');
+    const game = document.getElementById('main-game');
+    let cols = parseFloat(columnForm.value);
+    let rows = parseFloat(rowForm.value);
     startButton.disabled = true;
 
     function validIn() {
-        const val1 = parseFloat(columnForm.value);
-        const val2 = parseFloat(rowForm.value);
-        const valid1 = !isNaN(val1) && val1 >= parseFloat(columnForm.min) && val1 <= parseFloat(columnForm.max);
-        const valid2 = !isNaN(val2) && val2 >= parseFloat(rowForm.min) && val2 <= parseFloat(rowForm.max);
+        cols = parseFloat(columnForm.value);
+        rows = parseFloat(rowForm.value);
+        const valid1 = cols >= parseFloat(columnForm.min) && cols <= parseFloat(columnForm.max);
+        const valid2 = rows >= parseFloat(rowForm.min) && rows <= parseFloat(rowForm.max);
         startButton.disabled = !(valid1 && valid2);
     }
 
     columnForm.addEventListener('input', validIn);
     rowForm.addEventListener('input', validIn);
 
-    // document.getElementsByClassName('dropdown')
-    // function dropdown() {
-    // }
+    Array.from(dropdowns).forEach(function (dropdown) {
+        dropdown.addEventListener('click', function () {
+            const dropdownContent = this.getElementsByClassName('dropdown-content')[0];
+            if (dropdownContent.style.display === 'flex') {
+                dropdownContent.style.display = 'none';
+            } else {
+                dropdownContent.style.display = 'flex';
+            }
+        });
+    });
 
 
     function createGrid() {
-        const columns = columnForm.value; // replace x with your desired column count
-        const rows = rowForm.value;    // replace y with your desired row count
-
-        // Optionally, set grid style to display as a grid with the correct number of columns
         grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
         grid.innerHTML = ''; // clear previous grid if any
 
-        for (let i = 0; i < columns * rows; i++) {
+        for (let i = 0; i < cols * rows; i++) {
             const hole = document.createElement('div');
             hole.classList.add('hole');
             const mole = document.createElement('div');
@@ -58,7 +69,6 @@ window.addEventListener('load', function () {
         }
     }
     function randomMole() {
-
         if (curMole) curMole.style.display = 'none';
         const holes = document.querySelectorAll('.hole');
         const randomHole = holes[Math.floor(Math.random() * holes.length)];
@@ -71,23 +81,45 @@ window.addEventListener('load', function () {
             curMole.style.display = 'flex';
             curMole.style.backgroundColor = '#00FF00';
         }
-        gameInterval = setTimeout(randomMole, Math.floor(Math.random() * 300) + 400);
+        let interv = difficulty === 'easy'
+            ? Math.floor(Math.random() * 1000) + 400
+            : difficulty === 'medium'
+                ? Math.floor(Math.random() * 800) + 250
+                : Math.floor(Math.random() * 650) + 150;
+        gameInterval = setTimeout(randomMole, interv);
     }
     function startGame() {
         score = 0;
         scoreH.textContent = score;
+        timeD.textContent = timeForm.value;
         clearTimeout(gameInterval);
         randomMole();
-        
+        setTimeout(function () {
+            clearTimeout(gameInterval);
+            let dFactor = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 10 : 15
+            alert("Game Over! Final score: " + (score > 0 ? (score * cols * rows * dFactor) : 0));
+            game.style.display = 'none';
+            menu.style.display = 'block';
+        }, parseFloat(timeForm.value) * 1000);
+
     }
+    document.querySelectorAll('#easy, #medium, #hard').forEach(function (button) {
+        button.addEventListener('click', function () {
+            difficulty = button.id;
+            innerDiff.textContent = (button.id).charAt(0).toUpperCase() + (button.id).slice(1);
+            console.log(difficulty);
+        });
+    });
 
     document.getElementById('start-button')
         .addEventListener('click', function () {
             menu.style.display = 'none';
-            scoreD.style.display = 'block';
+            scoreD.style.display = 'flex';
+            game.style.display = 'block';
             createGrid();
             startGame();
         });
+
 
 
 });

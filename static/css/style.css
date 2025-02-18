@@ -49,4 +49,8 @@ body {
 }
 #score-display {
     display:none;
+    justify-content: center;
+    p{
+        margin: 0 5px 0 5px;
+    }
 }
