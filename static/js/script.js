@@ -18,6 +18,17 @@ window.addEventListener('load', function () {
     let cols = parseFloat(columnForm.value);
     let rows = parseFloat(rowForm.value);
     startButton.disabled = true;
+    function startTimer() {
+        let sec = parseInt(timeForm.value, 10);
+        timeD.textContent = sec;
+        let timer = setInterval(function(){
+            sec--;
+            timeD.textContent = sec;
+            if (sec < 0) {
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
 
     function validIn() {
         cols = parseFloat(columnForm.value);
@@ -100,7 +111,7 @@ window.addEventListener('load', function () {
             alert("Game Over! Final score: " + (score > 0 ? (score * cols * rows * dFactor) : 0));
             game.style.display = 'none';
             menu.style.display = 'block';
-        }, parseFloat(timeForm.value) * 1000);
+        }, timeForm.value * 1000);
 
     }
     document.querySelectorAll('#easy, #medium, #hard').forEach(function (button) {
@@ -118,6 +129,8 @@ window.addEventListener('load', function () {
             game.style.display = 'block';
             createGrid();
             startGame();
+            startTimer();
+            
         });
 
 
